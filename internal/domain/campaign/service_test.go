@@ -26,13 +26,27 @@ func (m *MockRepository) Save(campaign *Campaign) error {
 	args := m.Called(campaign)
 	return args.Error(0)
 }
-func Test_Create_Campaign(t *testing.T) {
+
+func Test_Service_Create(t *testing.T) {
 	assert := assert.New(t)
+	repositoryMock := new(MockRepository)
+	service.Repository = repositoryMock
 
-	campaign, err := NewCampaign(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	repositoryMock.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
+		if campaign.Name != newCampaign.Name ||
+			campaign.Content != newCampaign.Content ||
+			len(campaign.Contacts) != len(newCampaign.Emails) {
+			return false
+		}
+		return true
+	})).Return(nil)
+
+	campaignID, err := service.Create(newCampaign)
+
 	assert.Nil(err)
-	assert.Equal(name, campaign.Name)
+	assert.NotEmpty(campaignID)
 
+	repositoryMock.AssertExpectations(t)
 }
 
 func Test_Create_SaveCampaign(t *testing.T) {
