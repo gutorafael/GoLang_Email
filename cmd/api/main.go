@@ -1,15 +1,13 @@
 package main
 
 import (
-	"email/internal/contract"
 	"email/internal/domain/campaign"
-	"net/http"
-
+	"email/internal/endpoints"
+	"email/internal/infrastructure/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/go-chi/render"
+	"net/http"
 )
-
 
 func main() {
 	r := chi.NewRouter()
@@ -19,12 +17,14 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	service := campaign.Service{}
-	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
-		var request contract.NewCampaignDTO
-		render.DecodeJSON(r.Body, &request)
-		id, err := service.Create(request)
-	})
-	
+	campaignService := campaign.Service{
+		Repository: &database.CampaignRepo{},
+	}
+	handler := endpoints.Handler{
+		CampaignService: campaignService,
+	}
+
+	r.Post("/campaigns", handler.CampaignsPost)
+	r.Get("/campaigns", handler.CampaignsGetAll)
 	http.ListenAndServe(":4444", r)
 }
