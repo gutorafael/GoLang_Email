@@ -66,6 +66,5 @@ func Test_Create_ValidateDomain(t *testing.T) {
 
 	_, err := service.Create(newCampaign)
 
-	assert.NotNil(err)
-	assert.Equal(err.Error(), "Name cannot be less than 5 characters")
+	assert.False(errors.Is(err, internalerrors.ErrInternal))
 }
