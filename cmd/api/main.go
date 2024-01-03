@@ -24,7 +24,7 @@ func main() {
 		CampaignService: campaignService,
 	}
 
-	r.Post("/campaigns", handler.CampaignsPost)
-	r.Get("/campaigns", handler.CampaignsGetAll)
+	r.Post("/campaigns", endpoints.HandlerError(handler.CampaignsPost))
+	r.Get("/campaigns", endpoints.HandlerError(handler.CampaignsGetAll))
 	http.ListenAndServe(":4444", r)
 }
