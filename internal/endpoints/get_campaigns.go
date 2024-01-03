@@ -2,10 +2,10 @@ package endpoints
 
 import (
 	"net/http"
-	"github.com/go-chi/render"
 )
 
-func (h *Handler) CampaignsGetAll(w http.ResponseWriter, r *http.Request) {
-	render.Status(r, http.StatusCreated)
-	render.JSON(w, r, h.CampaignService.Repository.GetAll())
+func (h *Handler) CampaignsGetAll(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+
+	campaigns, err := h.CampaignService.Repository.GetAll()
+	return campaigns, http.StatusOK, err
 }

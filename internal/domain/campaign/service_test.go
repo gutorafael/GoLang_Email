@@ -27,8 +27,8 @@ func (m *MockRepository) Save(campaign *Campaign) error {
 	return args.Error(0)
 }
 
-func (m *MockRepository) GetAll() []Campaign {
-	return nil
+func (m *MockRepository) GetAll() ([]Campaign, error) {
+	return nil, nil
 }
 
 func Test_Service_Create_SaveCampaign(t *testing.T) {
