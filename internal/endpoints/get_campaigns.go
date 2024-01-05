@@ -6,6 +6,6 @@ import (
 
 func (h *Handler) CampaignsGetAll(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
 
-	campaigns, err := h.CampaignService.Repository.GetAll()
-	return campaigns, http.StatusOK, err
+	//campaigns, err := h.CampaignService.Repository.GetAll()
+	return nil, http.StatusOK, nil
 }

@@ -3,8 +3,13 @@ package campaign
 import (
 	internalerrors "email/internal/internalErrors"
 	"time"
-
 	"github.com/rs/xid"
+)
+
+const (
+	Pending = "Pending"
+	Sent 	= "Sent"
+	Failed	= "Failed"
 )
 
 type Contact struct {
@@ -17,6 +22,7 @@ type Campaign struct {
 	CreatedOn time.Time `validate:"required"`
 	Content   string    `validate:"min=5,max=1024"`
 	Contacts  []Contact `validate:"gte=1,dive"`
+	Status	  string
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
@@ -31,6 +37,7 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 		Content:   content,
 		CreatedOn: time.Now(),
 		Contacts:  contacts,
+		Status:    Pending,
 	}
 	err := internalerrors.ValidateStruct(campaign)
 	if err == nil {

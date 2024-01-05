@@ -88,3 +88,11 @@ func Test_NewCampaign_ValidateContactsMin(t *testing.T) {
 
 	assert.Equal(err.Error(), "Contacts must have at least one contact")
 }
+
+func Test_NewCampaign_StatusPending(t *testing.T) {
+	assert := assert.New(t)
+
+	campaign, _ := NewCampaign(name, content, contacts)
+
+	assert.Equal(Pending, campaign.Status)
+}

@@ -4,9 +4,9 @@ import (
 	"email/internal/contract"
 	internalerrors "email/internal/internalErrors"
 	"errors"
-	"testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"testing"
 )
 
 var (
@@ -28,6 +28,12 @@ func (m *MockRepository) Save(campaign *Campaign) error {
 }
 
 func (m *MockRepository) GetAll() ([]Campaign, error) {
+	//args := m.Called(campaign)
+	return nil, nil
+}
+
+func (m *MockRepository) GetBy(id string) (*Campaign, error) {
+	//args := m.Called(campaign)
 	return nil, nil
 }
 
